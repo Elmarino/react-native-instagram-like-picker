@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Text, SectionList, TouchableOpacity } from 'react-native';
+import { View, Image, Text, SectionList, TouchableOpacity, Dimensions } from 'react-native';
 
 import FileColletor from './fileCollector';
 import Cropper from './cropper';
@@ -29,16 +29,17 @@ class UploadFiles extends React.Component {
     }
 
     onCropped = () => {
-        this.cropper.crop().then((cropImageUri) => {
+        this.props.onCropped(this.state.selectedImageData);
+        /* this.cropper.crop().then((cropImageUri) => {
             this.props.onCropped(cropImageUri);
-        });
+        }); */
     }
 
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: '#000000' }}>
-                <View style={{ alignItems: 'center', height: 60, width: 420, flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 10, backgroundColor: 'rgba(100, 100, 100, 0.2)' }}>
-                    <View style={{ marginLeft: 10, flexDirection: 'row', }}>
+                <View style={{ alignItems: 'center', flexDirection: 'row', justifyContent: 'space-between', height: 60, width: Dimensions.get("window").width, paddingVertical: 10, backgroundColor: 'rgba(100, 100, 100, 0.2)' }}>
+                    <View style={{ marginLeft: 20, flexDirection: 'row', }}>
                         <TouchableOpacity onPress={() => this.props.onClose()}>
                             <Image
                                 style={{ width: 25, height: 25, tintColor: '#FFFFFF' }}
@@ -51,7 +52,7 @@ class UploadFiles extends React.Component {
                     <View style={{ marginRight: 20 }}>
                         <TouchableOpacity onPress={() => this.onCropped()}>
                             <Image
-                                style={{ width: 35, height: 35, tintColor: '#3e50f0' }}
+                                style={{ width: 35, height: 35, tintColor: '#ffffff' }}
                                 resizeMode={'contain'}
                                 source={require('./assets/forward.png')}
                             />
