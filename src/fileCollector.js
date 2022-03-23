@@ -31,7 +31,7 @@ export default class FileColletor extends React.Component {
             var fetchParams = {
                 first: 1000,
                 groupTypes: 'All',
-                assetType: 'Photos',
+                assetType: 'All',
             };
             if (Platform.OS === "android") {
                 delete fetchParams.groupTypes;
