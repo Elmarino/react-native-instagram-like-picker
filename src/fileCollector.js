@@ -91,7 +91,7 @@ export default class FileColletor extends React.Component {
                             onPress={() => this.selectedImage(item, index)}
                         >
                             <ImageBackground
-                                style={{ width: 100, height: 100 }}
+                                style={{ width: width / 3, height: width / 3 }}
                                 source={{ uri: item.node.image.uri }}
                             >
                                 {item.selected ? (<View style={{
