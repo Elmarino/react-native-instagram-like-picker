@@ -12,6 +12,22 @@ import CameraRoll from '@react-native-community/cameraroll';
 
 const { height, width } = Dimensions.get('screen');
 
+const options = {
+    title: 'Choisir',
+    storageOptions: {
+        skipBackup: true,
+        path: 'Sakana',
+        cameraRoll: true,
+        waitUntilSaved: true,
+    },
+    mediaType: 'mixed',
+    videoQuality: 'high',
+    durationLimit: 20,
+    thumbnail: true,
+    cancelButtonTitle: 'Annuler',
+    allowsEditing: false,
+}
+
 export default class FileColletor extends React.Component {
     constructor(props) {
         super(props);
@@ -47,6 +63,11 @@ export default class FileColletor extends React.Component {
         } catch (error) {
             console.log(error)
         }
+    }
+
+    camera = async () => {
+        const result = await launchCamera(options);
+        console.log(result)
     }
 
     selectedImage(item, index) {
@@ -119,15 +140,15 @@ export default class FileColletor extends React.Component {
                     )}
                     ListHeaderComponent={() => (
                         <View style={{ flexDirection: 'row', height: 45, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                            <TouchableOpacity style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: '600', fontSize: 16, color: '#FFFFFF' }}>Gallery</Text>
+                            <TouchableOpacity activeOpacity={1} style={{ flexDirection: 'row' }}>
+                                <Text style={{ fontWeight: '600', fontSize: 16, color: '#FFFFFF' }}>Galerie</Text>
                                 <Image resizeMode="contain" style={{ marginLeft: 10, width: 15, height: 15, tintColor: '#FFFFFF' }} source={require('./assets/down_a.png')} />
                             </TouchableOpacity>
                             <View style={{ flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={() => this.setState({ multipleSelected: !this.state.multipleSelected })} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: !this.state.multipleSelected ? 'rgba(255,255,255,0.2)' : '#2473f0', height: 35, width: 35, borderRadius: 100, marginRight: 8 }}>
+                                {/* <TouchableOpacity onPress={() => this.setState({ multipleSelected: !this.state.multipleSelected })} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: !this.state.multipleSelected ? 'rgba(255,255,255,0.2)' : '#2473f0', height: 35, width: 35, borderRadius: 100, marginRight: 8 }}>
                                     <Image resizeMode="contain" style={{ width: 22, height: 22, tintColor: '#FFFFFF' }} source={require('./assets/multi-copy.png')} />
-                                </TouchableOpacity>
-                                <TouchableOpacity style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.2)', height: 35, width: 35, borderRadius: 100 }}>
+                                </TouchableOpacity> */}
+                                <TouchableOpacity onPress={this.camera} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.2)', height: 35, width: 35, borderRadius: 100 }}>
                                     <Image resizeMode="contain" style={{ width: 20, height: 20, tintColor: '#FFFFFF' }} source={require('./assets/camera.png')} />
                                 </TouchableOpacity>
                             </View>

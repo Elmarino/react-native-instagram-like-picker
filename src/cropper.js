@@ -31,8 +31,8 @@ export default class SquareImageCropper extends React.Component {
         this.state = {
             photo: {
                 uri: this.props.imageData.image.uri,
-                height: this.props.imageData.image.height,
-                width: this.props.imageData.image.width,
+                height: this.props.imageData.image.height != null ? this.props.imageData.image.height : 414,
+                width: this.props.imageData.image.width != null ? this.props.imageData.image.width : 414,
             },
             measuredSize: { width: 414, height: 414 },
             croppedImageURI: null,
@@ -77,9 +77,14 @@ export default class SquareImageCropper extends React.Component {
 }
 
 const ImageCropper = ({ image, size, style, onTransformDataChange }) => {
+    image.width = image.width != null ? image.width : 414
+    image.height = image.height != null ? image.height : 414
+
     const widthRatio = image.width / size.width;
     const heightRatio = image.height / size.height;
     let _scaledImageSize = ImageSize;
+
+
     let contentOffset = ImageOffset;
     let horizontal = widthRatio > heightRatio;
     let maximumZoomScale = null;
