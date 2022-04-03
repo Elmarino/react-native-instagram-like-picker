@@ -67,7 +67,7 @@ export default class FileColletor extends React.Component {
 
     camera = async () => {
         const result = await launchCamera(options);
-        console.log(result)
+        this.props.onSelectImage(result.assets[0], true);
     }
 
     selectedImage(item, index) {
