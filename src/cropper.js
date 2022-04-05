@@ -163,7 +163,8 @@ const ImageCropper = ({ image, size, style, onTransformDataChange }) => {
             <Image
                 testID={'testImage'}
                 source={image}
-                style={_scaledImageSize}
+                /*style={_scaledImageSize}*/
+                resizeMode={'contain'}
             />
         </ScrollView>
     );
