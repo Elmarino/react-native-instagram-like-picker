@@ -153,17 +153,15 @@ const ImageCropper = ({ image, size, style, onTransformDataChange }) => {
             showsVerticalScrollIndicator={false}
             decelerationRate="fast"
             style={style}
+            contentContainerStyle={style}
             horizontal={horizontal}
-            contentOffset={contentOffset}
-            maximumZoomScale={maximumZoomScale}
-            minimumZoomScale={minimumZoomScale}
             onMomentumScrollEnd={onScroll}
             onScrollEndDrag={onScroll}
             scrollEventThrottle={16}>
             <Image
                 testID={'testImage'}
                 source={image}
-                /*style={_scaledImageSize}*/
+                style={style}
                 resizeMode={'contain'}
             />
         </ScrollView>
