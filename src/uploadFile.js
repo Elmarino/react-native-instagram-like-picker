@@ -22,10 +22,14 @@ class UploadFiles extends React.Component {
         this.cropper = null;
     }
 
-    onSelectImage = (data) => {
-        const { node } = data;
-        this.setState({ selectedImageData: node });
-        this.props.onSelectImage(data);
+    onSelectImage = (data, isCamera) => {
+        if (isCamera) {
+            this.props.onCropped(data, isCamera)
+        } else {
+            const { node } = data;
+            this.setState({ selectedImageData: node });
+            this.props.onSelectImage(data);
+        }
     }
 
     onCropped = () => {
