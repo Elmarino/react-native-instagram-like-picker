@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Platform,
-    StyleSheet,
     View,
     Text,
     ActivityIndicator,
@@ -9,6 +8,7 @@ import {
     Image, TouchableOpacity, ImageBackground, Modal, Dimensions
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll';
+import * as ImagePicker from 'react-native-image-picker'
 
 const { height, width } = Dimensions.get('screen');
 
@@ -66,7 +66,7 @@ export default class FileColletor extends React.Component {
     }
 
     camera = async () => {
-        const result = await launchCamera(options);
+        const result = await ImagePicker.launchCamera(options);
         this.props.onSelectImage(result.assets[0], true);
     }
 
