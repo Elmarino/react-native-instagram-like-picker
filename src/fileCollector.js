@@ -88,6 +88,50 @@ export default class FileColletor extends React.Component {
         }, 300)
     }
 
+    renderItem = ({ item, index }) => {
+        return (
+            <TouchableOpacity key={index} style={{ marginBottom: 1, marginRight: 1, }}
+                onPress={() => this.selectedImage(item, index)}
+            >
+                <View style={{ width: width / 3, height: width / 3, opacity: item.selected ? .4 : 1 }}>
+                    {{/* <Image
+                    style={{ width: width / 3, height: width / 3 }}
+                    source={{ uri: item.node.image.uri }}
+                    resizeMethod={'resize'}
+                /> */}}
+                    <FastImage
+                        style={{ width: width / 3, height: width / 3 }}
+                        source={{
+                            uri: item.node.image.uri,
+                            priority: FastImage.priority.normal,
+                        }}
+                        resizeMode={FastImage.resizeMode.cover}
+                        resizeMethod={'resize'}
+                    />
+                </View>
+            </TouchableOpacity>
+        )
+    }
+
+    headerList = () => {
+        return (
+            <View style={{ flexDirection: 'row', height: 45, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+                <TouchableOpacity activeOpacity={1} style={{ flexDirection: 'row' }}>
+                    <Text style={{ fontWeight: '600', fontSize: 16, color: '#FFFFFF' }}>Galerie</Text>
+                    <Image resizeMode="contain" style={{ marginLeft: 10, width: 15, height: 15, tintColor: '#FFFFFF' }} source={require('./assets/down_a.png')} />
+                </TouchableOpacity>
+                <View style={{ flexDirection: 'row' }}>
+                    {/* <TouchableOpacity onPress={() => this.setState({ multipleSelected: !this.state.multipleSelected })} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: !this.state.multipleSelected ? 'rgba(255,255,255,0.2)' : '#2473f0', height: 35, width: 35, borderRadius: 100, marginRight: 8 }}>
+                    <Image resizeMode="contain" style={{ width: 22, height: 22, tintColor: '#FFFFFF' }} source={require('./assets/multi-copy.png')} />
+                </TouchableOpacity> */}
+                    <TouchableOpacity onPress={this.camera} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.2)', height: 35, width: 35, borderRadius: 100 }}>
+                        <Image resizeMode="contain" style={{ width: 20, height: 20, tintColor: '#FFFFFF' }} source={require('./assets/camera.png')} />
+                    </TouchableOpacity>
+                </View>
+            </View>
+        )
+    }
+
     render() {
         return (
             <View style={{ flex: 1 }}>
@@ -113,59 +157,8 @@ export default class FileColletor extends React.Component {
                     data={this.state.images}
                     extraData={this.state}
                     keyExtractor={(item, index) => index}
-                    renderItem={({ item, index }) => (
-                        <TouchableOpacity key={index} style={{ marginBottom: 1, marginRight: 1, }}
-                            onPress={() => this.selectedImage(item, index)}
-                        >
-                            <View style={{ width: width / 3, height: width / 3, opacity: item.selected ? .4 : 1 }}>
-                                {{/* <Image
-                                    style={{ width: width / 3, height: width / 3 }}
-                                    source={{ uri: item.node.image.uri }}
-                                    resizeMethod={'resize'}
-                                /> */}}
-                                <FastImage
-                                    style={{ width: width / 3, height: width / 3 }}
-                                    source={{
-                                        uri: item.node.image.uri,
-                                        priority: FastImage.priority.normal,
-                                    }}
-                                    resizeMode={FastImage.resizeMode.cover}
-                                    resizeMethod={'resize'}
-                                />
-                            </View>
-                            {this.state.multipleSelected ? (
-                                <View style={{
-                                    position: 'absolute',
-                                    top: 5,
-                                    right: 5,
-                                    backgroundColor: '#2473f0',
-                                    height: 25, width: 25,
-                                    borderRadius: 100,
-                                    borderColor: '#FFFFFF',
-                                    borderWidth: 2, justifyContent: 'center', alignItems: 'center'
-                                }}>
-                                    <Text style={{ fontWeight: '500', fontSize: 12, color: '#FFFFFF' }}>{item.serialNumber}</Text>
-                                </View>
-                            )
-                                : null}
-                        </TouchableOpacity>
-                    )}
-                    ListHeaderComponent={() => (
-                        <View style={{ flexDirection: 'row', height: 45, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                            <TouchableOpacity activeOpacity={1} style={{ flexDirection: 'row' }}>
-                                <Text style={{ fontWeight: '600', fontSize: 16, color: '#FFFFFF' }}>Galerie</Text>
-                                <Image resizeMode="contain" style={{ marginLeft: 10, width: 15, height: 15, tintColor: '#FFFFFF' }} source={require('./assets/down_a.png')} />
-                            </TouchableOpacity>
-                            <View style={{ flexDirection: 'row' }}>
-                                {/* <TouchableOpacity onPress={() => this.setState({ multipleSelected: !this.state.multipleSelected })} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: !this.state.multipleSelected ? 'rgba(255,255,255,0.2)' : '#2473f0', height: 35, width: 35, borderRadius: 100, marginRight: 8 }}>
-                                    <Image resizeMode="contain" style={{ width: 22, height: 22, tintColor: '#FFFFFF' }} source={require('./assets/multi-copy.png')} />
-                                </TouchableOpacity> */}
-                                <TouchableOpacity onPress={this.camera} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.2)', height: 35, width: 35, borderRadius: 100 }}>
-                                    <Image resizeMode="contain" style={{ width: 20, height: 20, tintColor: '#FFFFFF' }} source={require('./assets/camera.png')} />
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    )}
+                    renderItem={this.renderItem}
+                    ListHeaderComponent={this.headerList}
                 />
             </View>
         );
