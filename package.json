@@ -17,6 +17,7 @@
   "dependencies": {
     "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-community/image-editor": "^2.3.0",
+    "react-native-fast-image": "^8.5.11",
     "react-native-image-picker": "^4.7.3"
   },
   "peerDependencies": {
