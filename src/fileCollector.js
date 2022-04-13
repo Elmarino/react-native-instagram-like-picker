@@ -1,7 +1,6 @@
 import React from 'react';
 import {
     Platform,
-    StyleSheet,
     View,
     Text,
     ActivityIndicator,
@@ -9,6 +8,8 @@ import {
     Image, TouchableOpacity, ImageBackground, Modal, Dimensions
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll';
+import * as ImagePicker from 'react-native-image-picker'
+import FastImage from 'react-native-fast-image'
 
 const { height, width } = Dimensions.get('screen');
 
@@ -42,31 +43,36 @@ export default class FileColletor extends React.Component {
         this.fetchImages();
     }
 
-    fetchImages() {
-        try {
-            var fetchParams = {
-                first: 1000,
-                groupTypes: 'All',
-                assetType: 'All',
-            };
-            if (Platform.OS === "android") {
-                delete fetchParams.groupTypes;
-            }
-            CameraRoll.getPhotos(fetchParams).then(result => {
-                this.setState({ images: result.edges });
-                this.props.onSelectImage(result.edges[0]);
-            }).catch((err) => {
-                console.log(err)
-            });
-            //Set state here to avoid infinite loading - iOS
-            this.setState({ initialLoading: false });
-        } catch (error) {
-            console.log(error)
+    fetchImages = () => {
+
+        let fetchParams = {
+            first: 1000,
+            groupTypes: 'All',
+            assetType: 'All',
+        };
+        if (Platform.OS === "android") {
+            delete fetchParams.groupTypes;
         }
+        CameraRoll.getPhotos(fetchParams).then(result => {
+            this.setState({ images: result.edges });
+            this.props.onSelectImage(result.edges[0]);
+
+            setTimeout(
+                () => {
+                    this.setState({ initialLoading: false });
+                }, 500
+            )
+
+
+        }).catch((err) => {
+            console.log(err)
+        });
+
+
     }
 
     camera = async () => {
-        const result = await launchCamera(options);
+        const result = await ImagePicker.launchCamera(options);
         this.props.onSelectImage(result.assets[0], true);
     }
 
@@ -103,24 +109,30 @@ export default class FileColletor extends React.Component {
                 </Modal>
                 <FlatList
                     showsVerticalScrollIndicator={false}
-                    numColumns={4}
+                    numColumns={3}
                     data={this.state.images}
                     extraData={this.state}
-                    keyExtractor={(item, index) => (item + index)}
+                    keyExtractor={(item, index) => index}
                     renderItem={({ item, index }) => (
                         <TouchableOpacity key={index} style={{ marginBottom: 1, marginRight: 1, }}
                             onPress={() => this.selectedImage(item, index)}
                         >
-                            <ImageBackground
-                                style={{ width: width / 3, height: width / 3 }}
-                                source={{ uri: item.node.image.uri }}
-                            >
-                                {item.selected ? (<View style={{
-                                    flex: 1,
-                                    backgroundColor: '#FFFFFF',
-                                    opacity: 0.5
-                                }} />) : null}
-                            </ImageBackground>
+                            <View style={{ width: width / 3, height: width / 3, opacity: item.selected ? .4 : 1 }}>
+                                {{/* <Image
+                                    style={{ width: width / 3, height: width / 3 }}
+                                    source={{ uri: item.node.image.uri }}
+                                    resizeMethod={'resize'}
+                                /> */}}
+                                <FastImage
+                                    style={{ width: width / 3, height: width / 3 }}
+                                    source={{
+                                        uri: item.node.image.uri,
+                                        priority: FastImage.priority.normal,
+                                    }}
+                                    resizeMode={FastImage.resizeMode.cover}
+                                    resizeMethod={'resize'}
+                                />
+                            </View>
                             {this.state.multipleSelected ? (
                                 <View style={{
                                     position: 'absolute',
