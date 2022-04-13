@@ -67,8 +67,6 @@ export default class FileColletor extends React.Component {
         }).catch((err) => {
             console.log(err)
         });
-
-
     }
 
     camera = async () => {
@@ -94,11 +92,6 @@ export default class FileColletor extends React.Component {
                 onPress={() => this.selectedImage(item, index)}
             >
                 <View style={{ width: width / 3, height: width / 3, opacity: item.selected ? .4 : 1 }}>
-                    {{/* <Image
-                    style={{ width: width / 3, height: width / 3 }}
-                    source={{ uri: item.node.image.uri }}
-                    resizeMethod={'resize'}
-                /> */}}
                     <FastImage
                         style={{ width: width / 3, height: width / 3 }}
                         source={{
@@ -121,9 +114,6 @@ export default class FileColletor extends React.Component {
                     <Image resizeMode="contain" style={{ marginLeft: 10, width: 15, height: 15, tintColor: '#FFFFFF' }} source={require('./assets/down_a.png')} />
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row' }}>
-                    {/* <TouchableOpacity onPress={() => this.setState({ multipleSelected: !this.state.multipleSelected })} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: !this.state.multipleSelected ? 'rgba(255,255,255,0.2)' : '#2473f0', height: 35, width: 35, borderRadius: 100, marginRight: 8 }}>
-                    <Image resizeMode="contain" style={{ width: 22, height: 22, tintColor: '#FFFFFF' }} source={require('./assets/multi-copy.png')} />
-                </TouchableOpacity> */}
                     <TouchableOpacity onPress={this.camera} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.2)', height: 35, width: 35, borderRadius: 100 }}>
                         <Image resizeMode="contain" style={{ width: 20, height: 20, tintColor: '#FFFFFF' }} source={require('./assets/camera.png')} />
                     </TouchableOpacity>
