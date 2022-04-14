@@ -55,10 +55,6 @@ export default class SquareImageCropper extends React.Component {
         };
     }
 
-    componentDidUpdate() {
-        console.log(this.state)
-    }
-
     crop() {
         try {
             return ImageEditor.cropImage(
@@ -77,7 +73,6 @@ export default class SquareImageCropper extends React.Component {
     }
 
     render() {
-        console.log('iooiioooio', this.state.measuredSize)
         return (
             <View style={styles.container}>
                 {
