@@ -5,8 +5,10 @@ import {
     StyleSheet,
     View,
     Platform,
+    ActivityIndicator
 } from 'react-native';
 import ImageEditor from '@react-native-community/image-editor';
+import Video from 'react-native-video';
 
 const ImageOffset = {
     x: null,
@@ -30,6 +32,7 @@ export default class SquareImageCropper extends React.Component {
         super(props);
         this.state = {
             photo: {
+                type: this.props.imageData.type,
                 uri: this.props.imageData.image.uri,
                 height: this.props.imageData.image.height != null ? this.props.imageData.image.height : 414,
                 width: this.props.imageData.image.width != null ? this.props.imageData.image.width : 414,
@@ -47,8 +50,13 @@ export default class SquareImageCropper extends React.Component {
                 uri: props.imageData.image.uri,
                 height: props.imageData.image.height,
                 width: props.imageData.image.width,
+                type: props.imageData.type,
             }
         };
+    }
+
+    componentDidUpdate() {
+        console.log(this.state)
     }
 
     crop() {
@@ -62,15 +70,34 @@ export default class SquareImageCropper extends React.Component {
         }
     }
 
+    onBuffer = () => {
+        return (
+            <ActivityIndicator size="large" color="#fcab16" />
+        )
+    }
+
     render() {
+        console.log('iooiioooio', this.state.measuredSize)
         return (
             <View style={styles.container}>
-                <ImageCropper
-                    image={this.state.photo}
-                    size={this.state.measuredSize}
-                    style={[styles.imageCropper, this.state.measuredSize]}
-                    onTransformDataChange={data => (this.transformData = data)}
-                />
+                {
+                    this.state.photo.type.includes('video') ?
+                        <Video source={{ uri: this.state.photo.uri }}   // Can be a URL or a local file.
+                            controls={true}
+                            onBuffer={this.onBuffer}                // Callback when remote video is buffering
+                            onError={this.videoError}               // Callback when video cannot be loaded
+                            style={{ height: 414, width: 414 - 150 }}
+                        />
+                        :
+                        (<ImageCropper
+                            image={this.state.photo}
+                            size={this.state.measuredSize}
+                            style={[styles.imageCropper, this.state.measuredSize]}
+                            onTransformDataChange={data => (this.transformData = data)}
+                        />)
+
+                }
+
             </View>
         );
     }
