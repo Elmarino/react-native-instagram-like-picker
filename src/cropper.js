@@ -5,10 +5,14 @@ import {
     StyleSheet,
     View,
     Platform,
-    ActivityIndicator
+    ActivityIndicator,
+    Dimensions
 } from 'react-native';
 import ImageEditor from '@react-native-community/image-editor';
 import Video from 'react-native-video';
+
+const screenW = Dimensions.get("window").width;
+const screenH = Dimensions.get("window").height;
 
 const ImageOffset = {
     x: null,
@@ -78,10 +82,10 @@ export default class SquareImageCropper extends React.Component {
                 {
                     this.state.photo.type.includes('video') ?
                         <Video source={{ uri: this.state.photo.uri }}   // Can be a URL or a local file.
-                            controls={true}
                             onBuffer={this.onBuffer}                // Callback when remote video is buffering
-                            onError={this.videoError}               // Callback when video cannot be loaded
-                            style={{ height: 414, width: 414 - 150 }}
+                            posterResizeMode={'contain'}
+                            resizeMode={"contain"}
+                            style={{ height: 414, width: screenW - screenW / 4 }}
                         />
                         :
                         (<ImageCropper
@@ -194,6 +198,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     imageCropper: {
         alignSelf: 'center',
