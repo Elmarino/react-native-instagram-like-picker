@@ -102,6 +102,15 @@ export default class FileColletor extends React.Component {
                         resizeMethod={'resize'}
                     />
                 </View>
+                {
+                    item.node.type.includes('video') &&
+                    <View style={{ position: 'absolute', bottom: 5, right: 5, zIndex: 100 }}>
+                        <Image
+                            source={require('./assets/playVideoWhite.png')}
+                            style={{ width: 15, height: 15 }}
+                            resizeMode={'contain'} />
+                    </View>
+                }
             </TouchableOpacity>
         )
     }
@@ -111,7 +120,7 @@ export default class FileColletor extends React.Component {
             <View style={{ flexDirection: 'row', height: 45, justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
                 <TouchableOpacity activeOpacity={1} style={{ flexDirection: 'row' }}>
                     <Text style={{ fontWeight: '600', fontSize: 16, color: '#FFFFFF' }}>Galerie</Text>
-                    <Image resizeMode="contain" style={{ marginLeft: 10, width: 15, height: 15, tintColor: '#FFFFFF' }} source={require('./assets/down_a.png')} />
+                    {/* <Image resizeMode="contain" style={{ marginLeft: 10, width: 15, height: 15, tintColor: '#FFFFFF' }} source={require('./assets/down_a.png')} /> */}
                 </TouchableOpacity>
                 <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity onPress={this.camera} style={{ justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.2)', height: 35, width: 35, borderRadius: 100 }}>
