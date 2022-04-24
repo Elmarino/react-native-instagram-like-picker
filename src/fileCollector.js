@@ -92,15 +92,25 @@ export default class FileColletor extends React.Component {
                 onPress={() => this.selectedImage(item, index)}
             >
                 <View style={{ width: width / 3, height: width / 3, opacity: item.selected ? .4 : 1 }}>
-                    <FastImage
-                        style={{ width: width / 3, height: width / 3 }}
-                        source={{
-                            uri: item.node.image.uri,
-                            priority: FastImage.priority.normal,
-                        }}
-                        resizeMode={FastImage.resizeMode.cover}
-                        resizeMethod={'resize'}
-                    />
+                    {
+                        Platform.OS === 'ios' ? <Image
+                            style={{ width: width / 3, height: width / 3 }}
+                            source={{
+                                uri: item.node.image.uri,
+                            }}
+                            resizeMode={'cover'}
+                            resizeMethod={'resize'}
+                        /> : <FastImage
+                            style={{ width: width / 3, height: width / 3 }}
+                            source={{
+                                uri: item.node.image.uri,
+                                priority: FastImage.priority.normal,
+                            }}
+                            resizeMode={FastImage.resizeMode.cover}
+                            resizeMethod={'resize'}
+                        />
+                    }
+
                 </View>
                 {
                     item.node.type.includes('video') &&
