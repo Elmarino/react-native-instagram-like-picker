@@ -6,7 +6,8 @@ import {
     View,
     Platform,
     ActivityIndicator,
-    Dimensions
+    Dimensions,
+    Text
 } from 'react-native';
 import ImageEditor from '@react-native-community/image-editor';
 import Video from 'react-native-video';
@@ -77,11 +78,23 @@ export default class SquareImageCropper extends React.Component {
     }
 
     render() {
+        const linkVideo = () => {
+            if (this.state.photo.uri.includes('ph://')) {
+                let url = this.state.photo.uri
+
+                const appleId = url.substring(5, 41);
+                const uri = `assets-library://asset/asset.${'mov'}?id=${appleId}&ext=${'mov'}`;
+
+                return uri
+            } else {
+                return this.state.photo.uri
+            }
+        }
         return (
             <View style={styles.container}>
                 {
                     this.state.photo.type.includes('video') ?
-                        <Video source={{ uri: this.state.photo.uri }}   // Can be a URL or a local file.
+                        <Video source={{ uri: linkVideo() }}   // Can be a URL or a local file.
                             onBuffer={this.onBuffer}                // Callback when remote video is buffering
                             posterResizeMode={'contain'}
                             resizeMode={"contain"}
