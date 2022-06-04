@@ -6,8 +6,7 @@ import {
     View,
     Platform,
     ActivityIndicator,
-    Dimensions,
-    Text
+    Dimensions
 } from 'react-native';
 import ImageEditor from '@react-native-community/image-editor';
 import Video from 'react-native-video';
@@ -78,23 +77,22 @@ export default class SquareImageCropper extends React.Component {
     }
 
     render() {
-        const linkVideo = () => {
-            if (this.state.photo.uri.includes('ph://')) {
-                let url = this.state.photo.uri
-
-                const appleId = url.substring(5, 41);
-                const uri = `assets-library://asset/asset.${'mov'}?id=${appleId}&ext=${'mov'}`;
-
+        const content = ()=>{
+            if (this.state.photo.type.includes('video')) {
+                //return uri directly
+                const appleId = this.state.photo.uri.substring(5, 41);
+                const uri = `assets-library://asset/asset.${'mov'}?id=${appleId}&ext=${'mov'}`
                 return uri
-            } else {
-                return this.state.photo.uri
+            } else{
+                return this.state.photo
             }
+           
         }
         return (
             <View style={styles.container}>
                 {
                     this.state.photo.type.includes('video') ?
-                        <Video source={{ uri: linkVideo() }}   // Can be a URL or a local file.
+                        <Video source={{ uri:content() }}   // Can be a URL or a local file.
                             onBuffer={this.onBuffer}                // Callback when remote video is buffering
                             posterResizeMode={'contain'}
                             resizeMode={"contain"}
@@ -102,7 +100,7 @@ export default class SquareImageCropper extends React.Component {
                         />
                         :
                         (<ImageCropper
-                            image={this.state.photo}
+                            image={content()}
                             size={this.state.measuredSize}
                             style={[styles.imageCropper, this.state.measuredSize]}
                             onTransformDataChange={data => (this.transformData = data)}
